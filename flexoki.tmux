@@ -55,20 +55,14 @@ zoom_number="#($SCRIPTS_PATH/custom-number.sh #P $zoom_id_style)"
 current_path="#($SCRIPTS_PATH/path-widget.sh #{pane_current_path})"
 
 #+--- Bars LEFT ---+
-# Session name
-if [[ "$session_bg_enabled" == "on" ]]; then
-    # Session name with background
-    tmux set -g status-left "#[fg=${THEME[bblack]},bg=${THEME[blue]},bold] #{?client_prefix,󰠠 ,#[dim]󰤂 }#[bold,nodim]#S "
-else
-    # Session name without background (transparent)
-    tmux set -g status-left "#[fg=${THEME[foreground]},bg=${THEME[background]},bold] #{?client_prefix,󰠠 ,#[dim] }#[bold,nodim]#S "
-fi
+# Session name (teal text, no background)
+tmux set -g status-left "#[fg=${THEME[cyan]},bg=${THEME[background]},bold] #{?client_prefix,󰠠 ,}#S #[fg=${THEME[fg4]}]│ "
 
 #+--- Windows ---+
-# Focus
-tmux set -g window-status-current-format "$RESET#[fg=${THEME[cyan]},bg=${THEME[bblack]}] #{?#{==:#{pane_current_command},ssh},󰣀,} #[fg=${THEME[foreground]},bold,nodim]$window_number #W#[nobold]#{?window_zoomed_flag, $zoom_number, $custom_pane} #{?window_last_flag,,} "
-# Unfocused
-tmux set -g window-status-format "$RESET#[fg=${THEME[fg3]}] #{?#{==:#{pane_current_command},ssh},󰣀,}${RESET} $window_number #W#[nobold,dim]#{?window_zoomed_flag, $zoom_number, $custom_pane} #[fg=${THEME[yellow]}]#{?window_last_flag,󰁯 , } "
+# Focus (yellow text, no background)
+tmux set -g window-status-current-format "$RESET#[fg=${THEME[yellow]},bold] $window_number #W#[nobold]#{?window_zoomed_flag, $zoom_number, $custom_pane} "
+# Unfocused (muted gray text)
+tmux set -g window-status-format "$RESET#[fg=${THEME[fg3]}] $window_number #W#[nobold,dim]#{?window_zoomed_flag, $zoom_number, $custom_pane} "
 
 #+--- Bars RIGHT ---+
 tmux set -g status-right "$current_path$git_status$github_status"
